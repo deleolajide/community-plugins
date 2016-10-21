@@ -368,7 +368,7 @@ public class EmailListener {
 				meetingJSON.put("title", meetingTitle);
 				meetingJSON.put("room", bookmark.getValue());
 
-				OfMeetPlugin.self.processMeeting(meetingJSON, username, bookmark.getProperty("url"));
+				OfMeetPlugin.self.processMeetingParticipant(meetingJSON, username, bookmark.getProperty("url"));
 
 				Collection<ClientSession> sessions = SessionManager.getInstance().getSessions(username);
 

@@ -346,7 +346,7 @@ public class Config extends HttpServlet
 			String showContactListAvatars	= JiveGlobals.getProperty("org.jitsi.videobridge.ofmeet.show.contactlist.avatars", "false");
 			String initationPoweredBy		= JiveGlobals.getProperty("org.jitsi.videobridge.ofmeet.invitation.poweredby", "true");
 			String videoLayoutFit			= JiveGlobals.getProperty("org.jitsi.videobridge.ofmeet.video.layout.fit", "both");
-			String toolbarButtons			= JiveGlobals.getProperty("org.jitsi.videobridge.ofmeet.toolbar.buttons", "'authentication', 'microphone', 'camera', 'desktop','recording', 'security', 'invite', 'chat', 'etherpad', 'sharedvideo','fullscreen', 'sip', 'dialpad', 'settings', 'hangup', 'filmstrip','contacts'");
+			String toolbarButtons			= JiveGlobals.getProperty("org.jitsi.videobridge.ofmeet.toolbar.buttons", "'profile', 'authentication', 'microphone', 'camera', 'desktop','recording', 'security', 'raisehand', 'chat', 'etherpad', 'sharedvideo','fullscreen', 'sip', 'dialpad', 'settings', 'hangup', 'filmstrip','contacts'");
 			String settingsSections			= JiveGlobals.getProperty("org.jitsi.videobridge.ofmeet.settings.sections", "'language', 'devices', 'moderator'");
 			String mainToolbarButtons		= JiveGlobals.getProperty("org.jitsi.videobridge.ofmeet.main.toolbar.buttons", "'microphone', 'camera', 'desktop', 'invite', 'hangup'");
 
@@ -385,6 +385,8 @@ public class Config extends HttpServlet
 			out.println("    REMOTE_THUMBNAIL_RATIO_HEIGHT: 1,");
 			out.println("    ENABLE_FEEDBACK_ANIMATION: false,");
 			out.println("    DISABLE_FOCUS_INDICATOR: false,");
+			out.println("    AUDIO_LEVEL_PRIMARY_COLOR: 'rgba(255,255,255,0.7)',");
+			out.println("    AUDIO_LEVEL_SECONDARY_COLOR: 'rgba(255,255,255,0.4)',");
 
 			out.println("    ACTIVE_SPEAKER_AVATAR_SIZE: " + activeSpkrAvatarSize);
 			out.println("}; ");

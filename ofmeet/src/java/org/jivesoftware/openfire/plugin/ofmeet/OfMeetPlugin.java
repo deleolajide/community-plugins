@@ -404,23 +404,7 @@ public class OfMeetPlugin implements Plugin, SessionEventListener, ClusterEventL
 
 						if(rightNow.after(warnDate) && rightNow.before(actionDate))
 						{
-							for (String user : bookmark.getUsers())
-							{
-								processMeeting(meeting, user, bookmark.getProperty("url"));
-							}
-
-							for (String groupName : bookmark.getGroups())
-							{
-								try {
-									Group group = GroupManager.getInstance().getGroup(groupName);
-
-									for (JID memberJID : group.getMembers())
-									{
-										processMeeting(meeting, memberJID.getNode(), bookmark.getProperty("url"));
-									}
-
-								} catch (GroupNotFoundException e) { }
-							}
+							processMeeting(meeting, bookmark);
 
 							meeting.put("processed", true);
 							done = true;
@@ -443,9 +427,30 @@ public class OfMeetPlugin implements Plugin, SessionEventListener, ClusterEventL
 		}
 	}
 
-	public void processMeeting(JSONObject meeting, String username, String videourl)
+	public void processMeeting(JSONObject meeting, Bookmark bookmark)
 	{
-		Log.info("OfMeet Plugin - processMeeting " + username + " " + meeting);
+		for (String user : bookmark.getUsers())
+		{
+			processMeetingParticipant(meeting, user, bookmark.getProperty("url"));
+		}
+
+		for (String groupName : bookmark.getGroups())
+		{
+			try {
+				Group group = GroupManager.getInstance().getGroup(groupName);
+
+				for (JID memberJID : group.getMembers())
+				{
+					processMeetingParticipant(meeting, memberJID.getNode(), bookmark.getProperty("url"));
+				}
+
+			} catch (GroupNotFoundException e) { }
+		}
+	}
+
+	public void processMeetingParticipant(JSONObject meeting, String username, String videourl)
+	{
+		Log.info("OfMeet Plugin - processMeetingParticipant " + username + " " + meeting);
 
 	   	try {
 			User user = userManager.getUser(username);
@@ -480,7 +485,7 @@ public class OfMeetPlugin implements Plugin, SessionEventListener, ClusterEventL
 			}
 	   }
 	   catch (Exception e) {
-		   Log.error("processMeeting error", e);
+		   Log.error("processMeetingParticipant error", e);
 	   }
 	}
 
@@ -836,9 +841,32 @@ public class OfMeetPlugin implements Plugin, SessionEventListener, ClusterEventL
 
     @Override public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException
     {
-        Log.info( "Quartz Execute Job....");
-        try {
+		JobDetail jobDetail = jobExecutionContext.getJobDetail();
+		String job = null; //jobDetail.getName();
+		String group = null; //jobDetail.getGroup();
 
+        Log.info( "Quartz Execute Job...." + job + " " + group);
+        try {
+			Bookmark bookmark = null;
+
+			try {
+				bookmark = new Bookmark(Long.parseLong(group));
+			}
+			catch (Exception e) {}
+
+			if (bookmark != null)
+			{
+				JSONObject meeting = new JSONObject();
+
+				meeting.put("startTime", System.currentTimeMillis());
+				meeting.put("endTime", System.currentTimeMillis() + 3600000);
+				meeting.put("description", "");
+				meeting.put("title", "");
+				meeting.put("room", "");
+
+				// TODO - 	use bookmark property to persist schedule from Meetings | planner admin web page
+				//			get bookmark here to get chatroom, use desc, title from chat room.
+			}
         }
         catch (Throwable e) {
             Log.error("Failed to execute quartz job...", e);

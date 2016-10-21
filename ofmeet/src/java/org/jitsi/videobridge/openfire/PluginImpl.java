@@ -46,6 +46,8 @@ import org.jitsi.videobridge.*;
 import org.jitsi.jicofo.*;
 import org.jitsi.jicofo.xmpp.*;
 
+import org.slf4j.bridge.SLF4JBridgeHandler;
+
 
 /**
  * Implements <tt>org.jivesoftware.openfire.container.Plugin</tt> to integrate
@@ -163,6 +165,8 @@ public class PluginImpl
         }
 
         if (jitsiActivator != null) OSGi.stop(jitsiActivator);
+
+        SLF4JBridgeHandler.uninstall();
     }
 
     /**
@@ -176,6 +180,10 @@ public class PluginImpl
      */
     public void initializePlugin(PluginManager manager, File pluginDirectory)
     {
+        // Remove existing handlers attached to j.u.l root logger
+        SLF4JBridgeHandler.removeHandlersForRootLogger();
+        SLF4JBridgeHandler.install();
+
 		String enableRecording = JiveGlobals.getProperty("org.jitsi.videobridge.ofmeet.media.record", "false");
 		String recordingPath = JiveGlobals.getProperty("org.jitsi.videobridge.ofmeet.recording.path", pluginDirectory.getAbsolutePath() + File.separator + "recordings");
 		String recordingSecret = JiveGlobals.getProperty("org.jitsi.videobridge.ofmeet.recording.secret", "secret");
