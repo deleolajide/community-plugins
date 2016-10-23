@@ -1,7 +1,8 @@
 Buildfile: C:\Projects\ignite\community-plugins-dele\ofswitch\build.xml
 
 clean:
-   [delete] Deleting directory C:\Projects\ignite\community-plugins-dele\ofswitch\build
+   [delete] Deleting: C:\Projects\ignite\community-plugins-dele\ofswitch\lib\plugin-ofswitch-jspc.jar
+   [delete] Deleting: C:\Projects\ignite\community-plugins-dele\ofswitch\lib\plugin-ofswitch.jar
 
 init:
     [mkdir] Created dir: C:\Projects\ignite\community-plugins-dele\ofswitch\build\classes
@@ -46,4 +47,4 @@ jar:
    [delete] Deleting directory C:\Projects\ignite\community-plugins-dele\ofswitch\build
 
 BUILD SUCCESSFUL
-Total time: 6 seconds
+Total time: 7 seconds
